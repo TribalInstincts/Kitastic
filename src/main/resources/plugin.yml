@@ -10,4 +10,9 @@ commands:
    kit:
       description: Turn a kit on or off.
       usage: /kit [kitname]
-
+   kitinfo:
+      description: Get info about a kit.
+      usage: /kitinfo [kitname]
+   help:
+      description: This prompt.
+      usage: /help
