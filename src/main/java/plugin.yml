@@ -1,0 +1,19 @@
+name: kitastic
+version: 1.0
+description: Kittastic framework for kit-based multiplayer server mods. 
+author: Sintrinsicx
+authors: [Sintrinsicx]
+main: org.kitastic.Kitastic
+database: false
+
+commands:
+   kit:
+      description: Turn a kit on or off.
+      usage: /kit [kitname]
+   kitinfo:
+      description: Get info about a kit.
+      usage: /kitinfo [kitname]
+   help:
+      description: This prompt.
+      usage: /help
+      
