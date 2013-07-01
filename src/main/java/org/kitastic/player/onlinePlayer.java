@@ -11,6 +11,7 @@ import net.minecraft.server.v1_5_R3.EnumArmorMaterial;
 import net.minecraft.server.v1_5_R3.ItemArmor;
 import net.minecraft.server.v1_5_R3.Material;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,6 +35,7 @@ public class onlinePlayer {
 		this.name = this.thisPlayer.getName();
 		this.kits = new HashMap<String,kit>();
 		this.elementalKit = new HashMap<String,kit>();
+
 	}
 	
 	public Boolean addKit(String kitName){

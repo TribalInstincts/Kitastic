@@ -69,21 +69,7 @@ import org.kitastic.player.onlinePlayer;
         			if(current-changed==1){
         				event.setCancelled(true);
         			}
-        			
         		}
-        	}
-        	
-        	@EventHandler
-        	public void onSprintInQuicksand(PlayerMoveEvent event){
-        		if(event.getPlayer().getLocation().getBlock().getTypeId() == 88){
-        			double bY = event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN).getLocation().getY();
-        			double pY = event.getPlayer().getLocation().getY();
-        			if((pY-bY)>1){
-        				event.getPlayer().setVelocity(new Vector(0,-2,0));
-        			}
-        		}
-        	}
-
-           
+        	}     
     }
 

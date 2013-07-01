@@ -32,6 +32,14 @@ import org.kitastic.server.ServerListener;
 import org.kitastic.server.hungerRegen;
 import org.kitastic.utils.MovementBroadcaster;
 import org.kitastic.utils.ZoneManager;
+
+import com.tribalinstincts.minecraft.nexus.modules.core.NexusCore;
+import com.tribalinstincts.minecraft.nexus.modules.core.NexusPlayer;
+import com.tribalinstincts.minecraft.nexus.modules.core.modules.ModuleType;
+import com.tribalinstincts.minecraft.nexus.modules.core.modules.NexusModuleCommandException;
+import com.tribalinstincts.minecraft.nexus.modules.core.modules.NexusModuleDependencyException;
+import com.tribalinstincts.minecraft.nexus.modules.core.modules.TrapModule;
+import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
      
     public class Kitastic extends JavaPlugin implements Listener{
            
@@ -43,7 +51,8 @@ import org.kitastic.utils.ZoneManager;
             public blockRestorer blockFixer;
             public MovementBroadcaster movementBroadcaster;
             public ZoneManager zoneManager;
-           
+
+            
             @Override
             public void onEnable() {
             		this.alteredLocations = new ArrayList<Location>();
@@ -53,7 +62,6 @@ import org.kitastic.utils.ZoneManager;
                     this.playerListener = new ServerListener(this);
             		this.movementBroadcaster = new MovementBroadcaster(this);
             		this.zoneManager = new ZoneManager(this);
-
                     //this.getCommand("kit").setExecutor(this.commander);
                     Runnable hungerRegen = new hungerRegen(this.getServer().getWorlds());
                     this.getServer().getScheduler().scheduleSyncRepeatingTask(this, hungerRegen, 160, 160);
@@ -73,7 +81,7 @@ import org.kitastic.utils.ZoneManager;
 						return;
 					}
             		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, runner,30, 30);
-                   
+
             }
      
             @Override

@@ -69,7 +69,6 @@ public class ZoneManager implements Listener{
 		PlayerMoveInZoneEvent event = new PlayerMoveInZoneEvent(originalEvent.getPlayer(),  targetZone, originalEvent);
 		Plugin.pluginManager.callEvent(event);		
 	}
-
 }
 
 
