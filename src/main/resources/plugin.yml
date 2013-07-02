@@ -16,3 +16,9 @@ commands:
    help:
       description: This prompt.
       usage: /help
+   familiar:
+   f:
+   calm:
+   drop:
+   egg:
+   traps:

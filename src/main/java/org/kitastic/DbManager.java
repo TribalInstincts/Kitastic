@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-public class dbManager {
+public class DbManager {
 	  private Connection connect;
-	  public dbManager(){
+	  public DbManager(){
 		  
 		  try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -28,7 +28,7 @@ public class dbManager {
 	  }
 	  
 	  
-	  public void doQuery(String queryString){
+	  public ResultSet doQuery(String queryString){
 		  Statement statement;
 		  ResultSet resultSet;
 		      try {
@@ -37,8 +37,8 @@ public class dbManager {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
+				resultSet = null;
 			}
-		
+		return resultSet;
 	  }
 }

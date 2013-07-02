@@ -5,6 +5,7 @@
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitastic.block.blockRestorer;
+import org.kitastic.kit.KitManager;
 import org.kitastic.kit.genericKit;
 import org.kitastic.kit.scheduledTask;
 import org.kitastic.player.onlinePlayer;
@@ -43,6 +45,7 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
      
     public class Kitastic extends JavaPlugin implements Listener{
            
+    		public DbManager db;
             public PluginManager pluginManager;
             public ServerListener playerListener;
             public KitasticCommandExecutor commander;
@@ -51,10 +54,13 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
             public blockRestorer blockFixer;
             public MovementBroadcaster movementBroadcaster;
             public ZoneManager zoneManager;
+            public KitManager km;
 
             
             @Override
             public void onEnable() {
+            		this.db = new DbManager();
+            		this.km = new KitManager(this);
             		this.alteredLocations = new ArrayList<Location>();
 					this.playerList = new HashMap<Player, onlinePlayer>();
 					this.commander = new KitasticCommandExecutor(this);

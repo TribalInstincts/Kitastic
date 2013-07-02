@@ -19,8 +19,8 @@ import org.kitastic.Kitastic;
 import org.kitastic.events.PlayerChangeZoneEvent;
 import org.kitastic.events.PlayerMoveFullBlockEvent;
 import org.kitastic.events.PlayerMoveInZoneEvent;
-import org.kitastic.interfaces.Zone;
 import org.kitastic.kit.genericKit;
+import org.kitastic.utils.Zone;
 
 public class kitspider extends genericKit{
 	public long lastused;

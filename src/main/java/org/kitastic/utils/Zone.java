@@ -1,9 +1,8 @@
-package org.kitastic.interfaces;
+package org.kitastic.utils;
 
 
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
-import org.kitastic.utils.Zonable;
 
 public class Zone {
 	public Vector loc1;

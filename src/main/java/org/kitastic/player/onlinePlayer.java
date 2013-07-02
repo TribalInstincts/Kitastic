@@ -11,18 +11,21 @@ import net.minecraft.server.v1_5_R3.EnumArmorMaterial;
 import net.minecraft.server.v1_5_R3.ItemArmor;
 import net.minecraft.server.v1_5_R3.Material;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.kitastic.Kitastic;
+import org.kitastic.kit.genericKit;
 import org.kitastic.kit.kit;
 
 public class onlinePlayer {
 	public Player thisPlayer;
 	public String name;
-	public Map<String, kit> kits; 
-	public Map<String, kit> elementalKit;
+	public ArrayList<String> availableKits;
+	public Map<String, genericKit> kits; 
+	public Map<String, genericKit> elementalKit;
 	public List<String> elementalList;
 	public List<String> kitList;
 	Kitastic Plugin;
@@ -33,8 +36,10 @@ public class onlinePlayer {
 		this.thisPlayer = joined;
 		this.Plugin = Plugin;
 		this.name = this.thisPlayer.getName();
-		this.kits = new HashMap<String,kit>();
-		this.elementalKit = new HashMap<String,kit>();
+		this.kits = new HashMap<String,genericKit>();
+		this.elementalKit = new HashMap<String,genericKit>();
+		this.availableKits = this.Plugin.km.getPlayerAllowedKits(thisPlayer);
+		Bukkit.broadcastMessage(this.availableKits.toString());
 
 	}
 	

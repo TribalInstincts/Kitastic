@@ -1,4 +1,5 @@
 package org.kitastic.kit;
+import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -10,7 +11,8 @@ public class genericKit implements Listener {
 	public Player thisPlayer;
     public Kitastic Plugin;
 	public List<HandlerList> handlerLists;
-	public String name;
+	public static String name;
+	public static ArrayList<String> metaTypes;
 
 	public genericKit(Player targetPlayer, Kitastic plugin){
 		this.thisPlayer = targetPlayer;

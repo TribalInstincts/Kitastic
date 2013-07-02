@@ -10,7 +10,6 @@ import org.kitastic.events.PlayerChangeZoneEvent;
 import org.kitastic.events.PlayerMoveFullBlockEvent;
 import org.kitastic.events.PlayerMoveInZoneEvent;
 import org.kitastic.events.ZoneChangeType;
-import org.kitastic.interfaces.Zone;
 /*watches onmove and fires enterszone and exitszone events. onlineplayers listen for them, and add/remove to zones accordingly. Kits can then check their
 player's zone list at specific times, or watch the register to the zone events theirselves. */
 public class ZoneManager implements Listener{

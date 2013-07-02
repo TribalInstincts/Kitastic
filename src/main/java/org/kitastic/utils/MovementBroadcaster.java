@@ -35,7 +35,6 @@ public class MovementBroadcaster implements Listener{
 
 	@EventHandler
 	public void onPlayerMoveOrig(PlayerMoveEvent event){
-		double time = System.nanoTime();
 		Player mover = event.getPlayer();
 		if(!playerList.keySet().contains(mover)){
 			this.playerList.put(mover, event.getFrom());
@@ -47,11 +46,6 @@ public class MovementBroadcaster implements Listener{
 			this.fireMovedBlock(movedBlocks, mover, event,oldFrom);
 			this.playerList.remove(mover);
 			this.playerList.put(mover, event.getTo());
-		}
-		double nTime = (System.nanoTime()-time);
-		if(nTime > 1){
-			//ns-ms conversion rate - http://tinyurl.com/mly9y4m 
-			Bukkit.broadcastMessage("Orig: "+this.format.format(nTime/1000000));
 		}
 	}
 	
