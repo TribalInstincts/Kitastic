@@ -19,10 +19,10 @@ import org.kitastic.Kitastic;
 import org.kitastic.events.PlayerChangeZoneEvent;
 import org.kitastic.events.PlayerMoveFullBlockEvent;
 import org.kitastic.events.PlayerMoveInZoneEvent;
-import org.kitastic.kit.genericKit;
+import org.kitastic.kit.GenericKit;
 import org.kitastic.utils.Zone;
 
-public class kitspider extends genericKit{
+public class kitspider extends GenericKit{
 	public long lastused;
 	public kitspider(Player targetPlayer, Kitastic plugin){
 	
@@ -31,53 +31,51 @@ public class kitspider extends genericKit{
 		this.handlerLists = Arrays.asList(PlayerInteractEvent.getHandlerList(),EntityDamageEvent.getHandlerList(),PlayerRespawnEvent.getHandlerList());
 		this.lastused = 0;
 		ItemStack web = new ItemStack(30,5);
-		this.thisPlayer.getInventory().addItem(web);
+		this.player.getInventory().addItem(web);
 	}
 	
 	@EventHandler
 	public void onUse(PlayerInteractEvent event){
-		if(event.getPlayer() == this.thisPlayer&&event.getAction().toString().startsWith("RIGHT")){
-			if(this.thisPlayer.getItemInHand().getTypeId()!=30){
-				Zone newZone = new Zone(event.getPlayer().getLocation().toVector(), 5, "TestZone");
-				this.Plugin.zoneManager.addZone(newZone);
+		if(event.getPlayer() == this.player&&event.getAction().toString().startsWith("RIGHT")){
+			if(this.player.getItemInHand().getTypeId()!=30){
 				return;
 			}
 			event.setCancelled(true);
-			if(this.lastused + 40 > thisPlayer.getWorld().getFullTime()){
-				thisPlayer.sendMessage("Your web is still regenerating!");
+			if(this.lastused + 120 > player.getWorld().getFullTime()){
+				player.sendMessage("Your web is still regenerating!");
 				return;
 			}
-			Vector target = thisPlayer.getTargetBlock(null, 100).getLocation().toVector();
-			if(thisPlayer.getLocation().toVector().distance(target)>30){
-				thisPlayer.sendMessage("You're not man enough for that kind of distance!");
+			Vector target = player.getTargetBlock(null, 100).getLocation().toVector();
+			if(player.getLocation().toVector().distance(target)>30){
+				player.sendMessage("You're not man enough for that kind of distance!");
 				return;
 			}
-			ItemStack web = this.thisPlayer.getInventory().getItemInHand();
+			ItemStack web = this.player.getInventory().getItemInHand();
 			if(web.getAmount()<2){
-				thisPlayer.getInventory().remove(web);
+				player.getInventory().remove(web);
 			}else{
 				web.setAmount(web.getAmount()-1);
 			}
 			
-			this.lastused = thisPlayer.getWorld().getFullTime();
-			this.thisPlayer.teleport(this.thisPlayer.getLocation().add(new Location(this.thisPlayer.getWorld(),0,1.1,0)));
-			Vector origin = thisPlayer.getLocation().toVector();
+			this.lastused = player.getWorld().getFullTime();
+			this.player.teleport(this.player.getLocation().add(new Location(this.player.getWorld(),0,1.1,0)));
+			Vector origin = player.getLocation().toVector();
 			Vector trueTarget = target.subtract(origin);
-			thisPlayer.setVelocity(this.calculateVelocity(new Vector(0,0,0), trueTarget, 2));
+			player.setVelocity(this.calculateVelocity(new Vector(0,0,0), trueTarget, 2));
 		}
 
 	}
 	
 	@EventHandler
 	public void onDmg(EntityDamageEvent event){
-		if(event.getEntity() instanceof Player&& event.getEntity()==this.thisPlayer&&event.getCause() == DamageCause.FALL){
+		if(event.getEntity() instanceof Player&& event.getEntity()==this.player&&event.getCause() == DamageCause.FALL){
 			event.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent event){
-		if(event.getPlayer() == this.thisPlayer){
+		if(event.getPlayer() == this.player){
 			ItemStack web = new ItemStack(30,5);
 			event.getPlayer().getInventory().addItem(web);
 		}
@@ -134,11 +132,11 @@ public class kitspider extends genericKit{
 		
 		@EventHandler
 		public void onChangeZone(PlayerChangeZoneEvent event){
-			this.thisPlayer.sendMessage(event.getChangeType().toString()+" zone "+event.getZone().name+". ");
+			this.player.sendMessage(event.getChangeType().toString()+" zone "+event.getZone().name+". ");
 		}
 		@EventHandler 
 		public void onMoveInZone(PlayerMoveInZoneEvent event){
-			this.thisPlayer.sendMessage("Moved in zone "+event.getZone().name+". ");
+			this.player.sendMessage("Moved in zone "+event.getZone().name+". ");
 
 		}
 		

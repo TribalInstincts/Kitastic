@@ -28,15 +28,15 @@ import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import org.kitastic.Kitastic;
 import org.kitastic.block.savedBlock;
-import org.kitastic.kit.genericKit;
-import org.kitastic.kit.scheduledTask;
+import org.kitastic.kit.GenericKit;
+import org.kitastic.utils.CallbackRunner;
 
 import java.lang.Runnable;
 import java.lang.reflect.Method;
 
 
 
-public class kitwater extends genericKit {
+public class kitwater extends GenericKit {
 
 	public Map<Block, Integer> toFix;
 	public long waitUntil;

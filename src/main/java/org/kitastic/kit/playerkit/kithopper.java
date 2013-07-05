@@ -23,9 +23,9 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.kitastic.Kitastic;
-import org.kitastic.kit.genericKit;
+import org.kitastic.kit.GenericKit;
 
-public class kithopper extends genericKit{
+public class kithopper extends GenericKit{
 	public Vector v1;
 	public Vector v2;
 	public long t;
@@ -38,7 +38,7 @@ public class kithopper extends genericKit{
 		v2 = new Vector(0,0,0);
 		r=new Random();
 		ItemStack hopper = new ItemStack(154);
-		this.thisPlayer.getInventory().addItem(hopper);
+		this.player.getInventory().addItem(hopper);
 
 
 	}
@@ -46,17 +46,17 @@ public class kithopper extends genericKit{
 	@EventHandler
 	public void onMove(PlayerMoveEvent event){
 		 
-		if(event.getPlayer() instanceof Player&&event.getPlayer()==this.thisPlayer){
-			if(this.thisPlayer.getLocation().getY()-this.thisPlayer.getLocation().getBlock().getRelative(BlockFace.DOWN).getY()>1&&thisPlayer.getItemInHand().getTypeId()==154){
+		if(event.getPlayer() instanceof Player&&event.getPlayer()==this.player){
+			if(this.player.getLocation().getY()-this.player.getLocation().getBlock().getRelative(BlockFace.DOWN).getY()>1&&player.getItemInHand().getTypeId()==154){
 			Vector v1n = event.getTo().subtract(event.getFrom()).toVector();
 			Vector newV = v1n.add(new Vector(0,.07,0));
-			this.thisPlayer.setVelocity(newV);
-			this.thisPlayer.playSound(this.thisPlayer.getLocation(), Sound.BURP, 0.1f, -20);
+			this.player.setVelocity(newV);
+			this.player.playSound(this.player.getLocation(), Sound.BURP, 0.1f, -20);
 			if(r.nextBoolean()){
-				this.thisPlayer.playSound(this.thisPlayer.getLocation(), Sound.NOTE_BASS_DRUM, 0.05f, -5);
+				this.player.playSound(this.player.getLocation(), Sound.NOTE_BASS_DRUM, 0.05f, -5);
 			}
 			if(r.nextBoolean()){
-				this.thisPlayer.playSound(this.thisPlayer.getLocation(), Sound.NOTE_SNARE_DRUM, 0.02f, -8);
+				this.player.playSound(this.player.getLocation(), Sound.NOTE_SNARE_DRUM, 0.02f, -8);
 			}
 			
 			}
@@ -65,7 +65,7 @@ public class kithopper extends genericKit{
 	
 	@EventHandler
 	public void onDmg(EntityDamageEvent event){
-		if(event.getEntity() instanceof Player&&event.getEntity()==this.thisPlayer){
+		if(event.getEntity() instanceof Player&&event.getEntity()==this.player){
 			event.setCancelled(true);
 		}
 

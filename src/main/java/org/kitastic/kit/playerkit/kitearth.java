@@ -28,17 +28,16 @@ import java.lang.Runnable;
 import java.lang.reflect.Method;
 import org.kitastic.Kitastic;
 import org.kitastic.block.savedBlock;
-import org.kitastic.kit.genericKit;
-import org.kitastic.kit.scheduledTask;
+import org.kitastic.kit.GenericKit;
+import org.kitastic.utils.CallbackRunner;
 
 
 
-public class kitearth extends genericKit {
+public class kitearth extends GenericKit {
 
 	public Map<Block, Integer> toFix;
 	public ArrayList<savedBlock> toFixWall;
 	public long waitUntil;
-	public Player thisPlayer;
 	public ArrayList<String> spawned;
 	public int radius;
 	public Method wallWalkMethod;
@@ -54,7 +53,7 @@ public class kitearth extends genericKit {
 		this.toFix = new HashMap<Block,Integer>();
 		this.toFixWall = new ArrayList<savedBlock>();
 		this.waitUntil = 0;
-		this.thisPlayer = targetPlayer;
+		this.player = targetPlayer;
 		this.radius = 4;
 		this.wallWalkMethod =  this.getClass().getDeclaredMethod("undoWallWalk", savedBlock.class);
 		this.handlerLists = Arrays.asList(PlayerInteractEvent.getHandlerList(),EntityChangeBlockEvent.getHandlerList(),ItemSpawnEvent.getHandlerList(),PlayerMoveEvent.getHandlerList());
@@ -65,26 +64,26 @@ public class kitearth extends genericKit {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event){
 
-			if(event.getPlayer() == this.thisPlayer&&event.getAction().toString().startsWith("RIGHT")){
-				if(this.thisPlayer.getItemInHand().getTypeId()!=369){
+			if(event.getPlayer() == this.player&&event.getAction().toString().startsWith("RIGHT")){
+				if(this.player.getItemInHand().getTypeId()!=369){
 					return;
 				}
-				long currentTime = this.thisPlayer.getWorld().getFullTime();
+				long currentTime = this.player.getWorld().getFullTime();
 				if(currentTime > this.waitUntil){
-					if(this.thisPlayer.getFoodLevel()<4){
-						this.thisPlayer.sendMessage("You don't have enough energy!");
+					if(this.player.getFoodLevel()<4){
+						this.player.sendMessage("You don't have enough energy!");
 						return;
 					}
 					this.waitUntil = currentTime + 250;
-					Location pLoc = this.thisPlayer.getLocation();
-					this.thisPlayer.getWorld().playSound(pLoc, Sound.NOTE_BASS_DRUM, 1, 0);
-					this.thisPlayer.setFoodLevel(this.thisPlayer.getFoodLevel()-4);
+					Location pLoc = this.player.getLocation();
+					this.player.getWorld().playSound(pLoc, Sound.NOTE_BASS_DRUM, 1, 0);
+					this.player.setFoodLevel(this.player.getFoodLevel()-4);
 
-					Entity fd = this.thisPlayer.getWorld().spawnFallingBlock(event.getPlayer().getEyeLocation(), 3, (byte) 7);
+					Entity fd = this.player.getWorld().spawnFallingBlock(event.getPlayer().getEyeLocation(), 3, (byte) 7);
 					this.spawned.add(fd.getUniqueId().toString());
 					fd.setVelocity(event.getPlayer().getLocation().getDirection().multiply(2));
 				}else{
-					this.thisPlayer.sendMessage("Earth is recharging!");
+					this.player.sendMessage("Earth is recharging!");
 				}
 			}
 
@@ -153,10 +152,10 @@ public class kitearth extends genericKit {
 	
 	@EventHandler
 	public void onMoveIntoWall(PlayerMoveEvent event){
-		if(event.getPlayer() == this.thisPlayer){
+		if(event.getPlayer() == this.player){
 			Vector dir = event.getTo().subtract(event.getFrom()).multiply(100).toVector();
-			if(this.thisPlayer.isSneaking()&&this.thisPlayer.getFoodLevel()>2&&dir.length()>0){
-				BlockIterator bi = new BlockIterator(this.thisPlayer.getWorld(), event.getFrom().toVector(), dir, 0, 2);
+			if(this.player.isSneaking()&&this.player.getFoodLevel()>2&&dir.length()>0){
+				BlockIterator bi = new BlockIterator(this.player.getWorld(), event.getFrom().toVector(), dir, 0, 2);
 				boolean blocksBroken = false;
 				while (bi.hasNext()) {
 					Block thisBlock = bi.next();
@@ -174,8 +173,8 @@ public class kitearth extends genericKit {
 					}
 				}
 				if(blocksBroken){
-					this.thisPlayer.setFoodLevel(this.thisPlayer.getFoodLevel()-2);
-					this.thisPlayer.playSound(this.thisPlayer.getLocation(), Sound.STEP_GRAVEL, 1, -5);
+					this.player.setFoodLevel(this.player.getFoodLevel()-2);
+					this.player.playSound(this.player.getLocation(), Sound.STEP_GRAVEL, 1, -5);
 				}
 			}
 		}
@@ -184,7 +183,7 @@ public class kitearth extends genericKit {
 
 	
 	public boolean undoWallWalk(savedBlock block){
-		List<Location> badLocs = Arrays.asList(this.thisPlayer.getLocation().getBlock().getLocation(),this.thisPlayer.getEyeLocation().getBlock().getLocation());		
+		List<Location> badLocs = Arrays.asList(this.player.getLocation().getBlock().getLocation(),this.player.getEyeLocation().getBlock().getLocation());		
 		if(!badLocs.contains(block.referencedBlock.getLocation())){
 			block.rawRevert();
 			return true;

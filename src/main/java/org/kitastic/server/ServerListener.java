@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.kitastic.Kitastic;
-import org.kitastic.player.onlinePlayer;
+import org.kitastic.player.OnlinePlayer;
      
     public class ServerListener implements Listener{
             private Kitastic plugin;
@@ -30,9 +30,9 @@ import org.kitastic.player.onlinePlayer;
             
             @EventHandler
             public void onPlayerJoin(PlayerJoinEvent event){
-            	onlinePlayer newPlayer = new onlinePlayer(event.getPlayer(), this.plugin);
+            	OnlinePlayer newPlayer = new OnlinePlayer(event.getPlayer(), this.plugin);
             	this.plugin.playerList.put(event.getPlayer(),newPlayer);
-        		
+        		newPlayer.getAvailableKits();
         		if(!event.getPlayer().getInventory().contains(369)){
         			ItemStack wand = new ItemStack(369);
         			event.getPlayer().getInventory().addItem(wand);

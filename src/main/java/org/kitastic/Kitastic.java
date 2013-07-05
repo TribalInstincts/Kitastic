@@ -27,12 +27,13 @@ import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitastic.block.blockRestorer;
 import org.kitastic.kit.KitManager;
-import org.kitastic.kit.genericKit;
-import org.kitastic.kit.scheduledTask;
-import org.kitastic.player.onlinePlayer;
+import org.kitastic.kit.GenericKit;
+import org.kitastic.kit.serverkit.hungerRegen;
+import org.kitastic.player.OnlinePlayer;
 import org.kitastic.server.ServerListener;
-import org.kitastic.server.hungerRegen;
 import org.kitastic.utils.MovementBroadcaster;
+import org.kitastic.utils.CallbackRunner;
+import org.kitastic.utils.ScheduledTaskManager;
 import org.kitastic.utils.ZoneManager;
 
 import com.tribalinstincts.minecraft.nexus.modules.core.NexusCore;
@@ -48,13 +49,13 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
     		public DbManager db;
             public PluginManager pluginManager;
             public ServerListener playerListener;
-            public KitasticCommandExecutor commander;
-            public Map<Player, onlinePlayer> playerList;
+            public Map<Player, OnlinePlayer> playerList;
             public ArrayList<Location> alteredLocations;
             public blockRestorer blockFixer;
             public MovementBroadcaster movementBroadcaster;
             public ZoneManager zoneManager;
             public KitManager km;
+            public ScheduledTaskManager tm;
 
             
             @Override
@@ -62,8 +63,7 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
             		this.db = new DbManager();
             		this.km = new KitManager(this);
             		this.alteredLocations = new ArrayList<Location>();
-					this.playerList = new HashMap<Player, onlinePlayer>();
-					this.commander = new KitasticCommandExecutor(this);
+					this.playerList = new HashMap<Player, OnlinePlayer>();
                     this.pluginManager = this.getServer().getPluginManager();
                     this.playerListener = new ServerListener(this);
             		this.movementBroadcaster = new MovementBroadcaster(this);
@@ -74,9 +74,10 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
                     Bukkit.getLogger().info("PluginTemplate loaded!");
                     this.pluginManager.registerEvents(this, this);
                     this.blockFixer = new blockRestorer(this.getServer().getWorlds().get(0),this);
-                    scheduledTask runner;
+                    this.tm = new ScheduledTaskManager(this);
+                    CallbackRunner runner;
 					try {
-						runner = new scheduledTask(this, this.getClass().getMethod("getTPS", null));
+						runner = new CallbackRunner(this, this.getClass().getMethod("getTPS", null));
 					} catch (NoSuchMethodException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -100,15 +101,22 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
             }
             
             public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-        		onlinePlayer oP = this.playerList.get(sender);
+            	OnlinePlayer oP = null;
+            	try{
+        		oP = this.playerList.get(sender);
+            	}catch(Exception e){
+            		e.printStackTrace();
+            		Bukkit.broadcastMessage(sender.getName());
+            		Bukkit.broadcastMessage(this.playerList.toString());
+            	}
 
             	String command = cmd.getName();
             	switch(command){
             		case("kit"):
                 		if(args.length==1){
-                			this.playerList.get(sender).addKit(args[0]);
+                			this.km.toggleKit(args[0], oP.player);
                 		}else{
-                			oP.sayKits();
+                			this.km.sayKits(oP);
             				sender.sendMessage(cmd.getDescription());
                 			sender.sendMessage(cmd.getUsage());
                 		}
@@ -128,7 +136,7 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
             			sender.sendMessage(description);
             			}catch(Exception e){
             				e.printStackTrace();
-            				oP.sayKits();
+            				km.sayKits(oP);
             				sender.sendMessage("No kit by that name. Try again.");
             				return true;
             			}
