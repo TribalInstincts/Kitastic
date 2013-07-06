@@ -1,11 +1,9 @@
 	
 
-    package org.kitastic;
+package org.kitastic;
      
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,34 +13,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.server.RemoteServerCommandEvent;
-import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitastic.block.blockRestorer;
 import org.kitastic.kit.KitManager;
-import org.kitastic.kit.GenericKit;
 import org.kitastic.kit.serverkit.hungerRegen;
 import org.kitastic.player.OnlinePlayer;
 import org.kitastic.server.ServerListener;
+import org.kitastic.utils.Callback;
 import org.kitastic.utils.MovementBroadcaster;
 import org.kitastic.utils.CallbackRunner;
 import org.kitastic.utils.ScheduledTaskManager;
 import org.kitastic.utils.ZoneManager;
 
-import com.tribalinstincts.minecraft.nexus.modules.core.NexusCore;
-import com.tribalinstincts.minecraft.nexus.modules.core.NexusPlayer;
-import com.tribalinstincts.minecraft.nexus.modules.core.modules.ModuleType;
-import com.tribalinstincts.minecraft.nexus.modules.core.modules.NexusModuleCommandException;
-import com.tribalinstincts.minecraft.nexus.modules.core.modules.NexusModuleDependencyException;
-import com.tribalinstincts.minecraft.nexus.modules.core.modules.TrapModule;
-import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
      
     public class Kitastic extends JavaPlugin implements Listener{
            
@@ -75,18 +60,8 @@ import com.tribalinstincts.minecraft.nexus.modules.traps.TrapManager;
                     this.pluginManager.registerEvents(this, this);
                     this.blockFixer = new blockRestorer(this.getServer().getWorlds().get(0),this);
                     this.tm = new ScheduledTaskManager(this);
-                    CallbackRunner runner;
-					try {
-						runner = new CallbackRunner(this, this.getClass().getMethod("getTPS", null));
-					} catch (NoSuchMethodException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						return;
-					} catch (SecurityException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						return;
-					}
+                    Callback callback = new Callback(this,"getTPS",null);
+                    CallbackRunner runner = new CallbackRunner(callback);
             		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, runner,30, 30);
 
             }

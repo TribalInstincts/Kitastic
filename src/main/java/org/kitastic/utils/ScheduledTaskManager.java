@@ -1,6 +1,5 @@
 package org.kitastic.utils;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,20 +20,20 @@ public class ScheduledTaskManager {
 		this.taskIds = new  HashMap<Integer,SavedTask>();
 	}
 	
-	public SavedTask createRepeatingTask(Object sender, String methodName, Object[] perameters,Integer delay, Integer interval){
-		ManagedCallbackRunner callbackRunner = this.createCallback(sender, methodName, true, perameters);
+	public SavedTask createRepeatingTask(Callback callback,Integer delay, Integer interval){
+		ManagedCallbackRunner callbackRunner = new ManagedCallbackRunner(this, false, callback);
 		Integer taskId = this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, callbackRunner, delay, interval);
 		callbackRunner.taskId = taskId;
-		SavedTask task =  new SavedTask(this, sender, callbackRunner, taskId, true);
+		SavedTask task =  new SavedTask(this, callback.getOnwer(), callbackRunner, taskId, true);
 		this.taskIds.put(taskId, task);
 		return task;
 	}
 	
-	public SavedTask createDelayedTask(Object sender, String methodName, Object[] perameters,Integer delay){
-		ManagedCallbackRunner callbackRunner = this.createCallback(sender, methodName, false, perameters);
+	public SavedTask createDelayedTask(Callback callback,Integer delay){
+		ManagedCallbackRunner callbackRunner = new ManagedCallbackRunner(this, false, callback);
 		Integer taskId = this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, callbackRunner, delay);
 		callbackRunner.taskId = taskId;
-		SavedTask task =  new SavedTask(this, sender, callbackRunner, taskId, false);
+		SavedTask task =  new SavedTask(this,callback.getOnwer(), callbackRunner, taskId, false);
 		this.taskIds.put(taskId, task);
 		return task;
 	}
@@ -50,21 +49,6 @@ public class ScheduledTaskManager {
 	
 	public void removeTask(SavedTask taskId) {
 		taskId.destroy();
-	}
-	
-	private ManagedCallbackRunner createCallback(Object sender, String methodName,Boolean isRepeating,Object[] perameters){
-		Method callbackMethod;
-		try {
-			callbackMethod = sender.getClass().getMethod(methodName, (Class<?>[]) perameters);
-			return new ManagedCallbackRunner(this, isRepeating, sender, callbackMethod, perameters);
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-		
 	}
 	
 	public void removeAll(Object taskCreator){

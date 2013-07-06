@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.kitastic.Kitastic;
+import org.kitastic.utils.Callback;
 import org.kitastic.utils.CallbackRunner;
 
 public class blockRestorer {
@@ -23,15 +24,8 @@ public class blockRestorer {
 		this.blockIndex = new ArrayList<Location>();
 		this.targetWorld = targetWorld;
 		this.Plugin = Plugin;
-		try {
-			this.Plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.Plugin, new CallbackRunner(this, this.getClass().getMethod("restore", null)), 30, 30);
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Callback callback = new Callback(this, "restore",null);
+			this.Plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.Plugin, new CallbackRunner(callback), 30, 30);
 	}
 	
 	public boolean queueBlock(long timeDelay, savedBlock blockReference){

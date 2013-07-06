@@ -8,29 +8,18 @@ public class ManagedCallbackRunner extends CallbackRunner{
 	public Integer taskId;
 	public Boolean isRepeating;
 	
-	public ManagedCallbackRunner(ScheduledTaskManager mother, Boolean isRepeating, Object callbackObject, Method callBack, Object[] perameters) {
-		super(callbackObject, callBack, perameters);
+	public ManagedCallbackRunner(ScheduledTaskManager mother, Boolean isRepeating, Callback callback) {
+		super(callback);
 		this.mother = mother;
-		this.taskId = taskId;
+		this.taskId = null;
 		this.isRepeating = isRepeating;
 		this.taskId = -1;
 	}
 	
 	@Override
 	public void run() {
-		
-		try {
-			callback.invoke(this.callbackObject,perameters);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.callback.invoke();
+
 		if(!this.isRepeating){
 			this.mother.removeTask(this.taskId);
 		}
