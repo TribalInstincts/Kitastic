@@ -29,7 +29,7 @@ import org.bukkit.util.Vector;
 import org.kitastic.Kitastic;
 import org.kitastic.block.savedBlock;
 import org.kitastic.kit.GenericKit;
-import org.kitastic.utils.CallbackRunner;
+import org.kitastic.utils.scheduler.CallbackRunner;
 
 import java.lang.Runnable;
 import java.lang.reflect.Method;

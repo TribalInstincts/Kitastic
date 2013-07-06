@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import org.kitastic.Kitastic;
 import org.kitastic.block.savedBlock;
 import org.kitastic.kit.GenericKit;
-import org.kitastic.utils.CallbackRunner;
+import org.kitastic.utils.scheduler.CallbackRunner;
 
 
 

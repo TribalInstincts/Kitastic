@@ -1,4 +1,4 @@
-package org.kitastic.utils;
+package org.kitastic.utils.scheduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

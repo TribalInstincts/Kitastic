@@ -1,4 +1,4 @@
-package org.kitastic.utils;
+package org.kitastic.utils.zones;
 
 
 import org.bukkit.Location;

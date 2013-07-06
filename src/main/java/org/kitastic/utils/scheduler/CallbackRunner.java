@@ -1,4 +1,4 @@
-package org.kitastic.utils;
+package org.kitastic.utils.scheduler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

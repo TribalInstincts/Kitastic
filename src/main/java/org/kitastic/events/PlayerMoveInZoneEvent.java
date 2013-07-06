@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList; 
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
-import org.kitastic.utils.Zone;
+import org.kitastic.utils.zones.Zone;
 
 public class PlayerMoveInZoneEvent extends Event { 
 	private static final HandlerList handlers = new HandlerList(); 

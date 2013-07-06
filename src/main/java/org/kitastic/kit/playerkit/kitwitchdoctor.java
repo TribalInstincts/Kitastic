@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.kitastic.Kitastic;
 import org.kitastic.kit.GenericKit;
-import org.kitastic.utils.SavedTask;
+import org.kitastic.utils.scheduler.SavedTask;
 
 public class kitwitchdoctor extends GenericKit{
 	public Block totem;

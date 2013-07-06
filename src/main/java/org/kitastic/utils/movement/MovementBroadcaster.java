@@ -1,4 +1,4 @@
-package org.kitastic.utils;
+package org.kitastic.utils.movement;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;

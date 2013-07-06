@@ -19,14 +19,15 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.kitastic.block.blockRestorer;
 import org.kitastic.kit.KitManager;
+import org.kitastic.kit.serverkit.Shop;
 import org.kitastic.kit.serverkit.hungerRegen;
 import org.kitastic.player.OnlinePlayer;
 import org.kitastic.server.ServerListener;
-import org.kitastic.utils.Callback;
-import org.kitastic.utils.MovementBroadcaster;
-import org.kitastic.utils.CallbackRunner;
-import org.kitastic.utils.ScheduledTaskManager;
-import org.kitastic.utils.ZoneManager;
+import org.kitastic.utils.movement.MovementBroadcaster;
+import org.kitastic.utils.scheduler.Callback;
+import org.kitastic.utils.scheduler.CallbackRunner;
+import org.kitastic.utils.scheduler.ScheduledTaskManager;
+import org.kitastic.utils.zones.ZoneManager;
 
      
     public class Kitastic extends JavaPlugin implements Listener{
@@ -41,6 +42,7 @@ import org.kitastic.utils.ZoneManager;
             public ZoneManager zoneManager;
             public KitManager km;
             public ScheduledTaskManager tm;
+            public Shop shop;
 
             
             @Override
@@ -63,6 +65,7 @@ import org.kitastic.utils.ZoneManager;
                     Callback callback = new Callback(this,"getTPS",null);
                     CallbackRunner runner = new CallbackRunner(callback);
             		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, runner,30, 30);
+            		this.shop = new Shop(this);
 
             }
      

@@ -1,4 +1,4 @@
-package org.kitastic.utils;
+package org.kitastic.utils.scheduler;
 
 public class SavedTask {
 	public Integer taskId;

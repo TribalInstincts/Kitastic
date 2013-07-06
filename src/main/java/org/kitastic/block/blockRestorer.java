@@ -10,8 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.kitastic.Kitastic;
-import org.kitastic.utils.Callback;
-import org.kitastic.utils.CallbackRunner;
+import org.kitastic.utils.scheduler.Callback;
+import org.kitastic.utils.scheduler.CallbackRunner;
 
 public class blockRestorer {
 	public Map<Long,ArrayList<savedBlock>> timeStamps;
